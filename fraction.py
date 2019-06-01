@@ -25,6 +25,147 @@ class Fraction:
 			return True
 		return False
 
+	def __str__(self):
+		"""
+		Summary:
+		Override the to string method.
+
+		Returns:
+		A string representation of the fraction.
+		"""
+
+		if self.numerator == 0:
+			return "0"
+		elif self.denominator == 1:
+			return str(self.numerator)
+		else:
+			return "{0}/{1}".format(self.numerator, self.denominator)
+
+	def __neg__(self):
+		"""
+		Summary:
+		Negate the fraction.
+
+		Returns:
+		The fraction negated.
+		"""
+
+		return Fraction(self.numerator * (-1), self.denominator)
+
+	def __add__(self, other):
+		"""
+		Summary:
+		Addition overload for fraction.
+
+		Returns:
+		The sum of self and other.
+		"""
+
+		if type(other) is Fraction:
+			return Fraction.add(self, other)
+		elif type(other) is int:
+			return Fraction.add(self, Fraction(other, 1))
+		else:
+			return NotImplemented()
+
+	def __radd__(self, other):
+		"""
+		Summary:
+		Addition overload for fraction.
+
+		Returns:
+		The sum of self and other.
+		"""
+
+		return self + other
+
+	def __mul__(self, other):
+		"""
+		Summary:
+		Multiplication overload for fraction.
+
+		Returns:
+		The product of self and other.
+		"""
+
+		if type(other) is Fraction:
+			return Fraction.multiply_fraction(self, other)
+		elif type(other) is int:
+			return Fraction.multiply_scalar(self, other)
+		else:
+			return NotImplemented()
+
+	def __rmul__(self, other):
+		"""
+		Summary:
+		Multiplication overload for fraction.
+
+		Returns:
+		The product of self and other.
+		"""
+
+		return self * other
+
+	def __truediv__(self, other):
+		"""
+		Summary:
+		Division overload for fraction.
+
+		Returns:
+		The result of dividing self and other.
+		"""
+
+		if type(other) is Fraction:
+			return Fraction.divide_fraction_fraction(self, other)
+		elif type(other) is int:
+			return Fraction.divide_fraction_scalar(self, other)
+		else:
+			return NotImplemented()
+
+	def __rtruediv__(self, other):
+		"""
+		Summary:
+		Division overload for fraction.
+
+		Returns:
+		The result of dividing self and other.
+		"""
+
+		if type(other) is Fraction:
+			return Fraction.divide_fraction_fraction(other, self)
+		elif type(other) is int:
+			return Fraction.divide_scalar_fraction(other, self)
+		else:
+			return NotImplemented()
+
+	def __sub__(self, other):
+		"""
+		Summary:
+		Subtraction overload for fraction.
+
+		Returns:
+		The result of subtracting self and other.
+		"""
+
+		if (type(other) is Fraction) or (type(other) is int):
+			return self + (-other)
+		else:
+			return NotImplemented()
+
+	def __rsub__(self, other):
+		"""
+		Summary:
+		Subtraction overload for fraction.
+
+		Returns:
+		The result of subtracting self and other.
+		"""
+
+		if (type(other) is Fraction) or (type(other) is int):
+			return (-self) + other
+		else:
+			return NotImplemented()
+
 	@staticmethod
 	def add(f1, f2):
 		"""
@@ -205,7 +346,6 @@ class Fraction:
 			gcd = Fraction.gcd(f.numerator, f.denominator)
 
 		return f
-
 
 	@staticmethod
 	def gcd(a, b):
