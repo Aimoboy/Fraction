@@ -10,6 +10,7 @@ class Fraction:
 
 		self.numerator = numerator
 		self.denominator = denominator
+		self.fix_sign()
 
 	def __eq__(self, other):
 		"""
@@ -26,27 +27,129 @@ class Fraction:
 
 	@staticmethod
 	def add(f1, f2):
-		pass
+		"""
+		Summary:
+		Add two fractions.
+
+		Parameters:
+		f1 (Fraction): The first fraction.
+		f2 (Fraction): The second fraction.
+
+		Returns:
+		The sum of the fractions.
+		"""
+
+		if f1.denominator == f2.denominator:
+			return Fraction(f1.numerator + f2.numerator, f1.denominator)
+
+		f = Fraction.add(f1.expand(f2.denominator), f2.expand(f1.denominator))
+		f = f.max_reduce()
+
+		return f
 
 	@staticmethod
 	def multiply_scalar(f, s):
-		pass
+		"""
+		Summary:
+		Multiply a fraction with a scalar.
+
+		Parameters:
+		f (Fraction): The fraction.
+		s (int): The scalar.
+
+		Returns:
+		The fraction multiplied with the scalar.
+		"""
+
+		if type(s) is float:
+			raise ValueError("Multiply with a fraction rather than a float.")
+
+		return Fraction(self.numerator * s, self.denominator)
 
 	@staticmethod
 	def multiply_fraction(f1, f2):
-		pass
+		"""
+		Summary:
+		Multiply the fraction with another fraction.
+
+		Parameters:
+		f1 (Fraction): The first fraction.
+		f2 (Fraction): The second fraction.
+
+		Returns:
+		The product of the two fractions.
+		"""
+
+		f = Fraction(f1.numerator * f2.numerator, f1.denominator * f2.denominator)
+		f = f.max_reduce()
+
+		return f
 
 	@staticmethod
 	def divide_fraction_fraction(f1, f2):
-		pass
+		"""
+		Summary:
+		Divide fraction with another fraction.
+
+		Parameters:
+		f1 (Fraction): The first fraction.
+		f2 (Fraction): The second fraction.
+
+		Returns:
+		The result of dividing the two fractions.
+		"""
+
+		f = Fraction(f1.numerator * f2.denominator, f1.denominator * f2.numerator)
+		f = f.max_reduce()
+
+		return f
 
 	@staticmethod
 	def divide_fraction_scalar(f, s):
-		pass
+		"""
+		Summary:
+		Divide a fraction with a scalar.
+
+		Parameters:
+		f (Fraction): The fraction.
+		s (int): The scalar.
+
+		Returns:
+		The fraction divided with the scalar.
+		"""
+
+		if s == 0:
+			raise ValueError("Cannot divide with 0.")
+
+		if type(s) is float:
+			raise ValueError("Divide with a fraction rather than a float.")
+
+		f = Fraction(f.numerator, f.denominator * s)
+		f = f.max_reduce()
+
+		return f
 
 	@staticmethod
 	def divide_scalar_fraction(f, s):
-		pass
+		"""
+		Summary:
+		Divide a scalar with a fraction.
+
+		Parameters:
+		f (Fraction): The fraction.
+		s (int): The scalar.
+
+		Returns:
+		The scalar divided with the fraction.
+		"""
+
+		if type(s) is float:
+			raise ValueError("Divide with a fraction rather than a float.")
+
+		f = Fraction(f.denominator * s, f.numerator)
+		f = f.max_reduce()
+
+		return f
 
 	def expand(self, s):
 		"""
@@ -140,3 +243,19 @@ class Fraction:
 		"""
 
 		return Fraction(self.numerator, self.denominator)
+
+	def fix_sign(self):
+		"""
+		Summary:
+		Make the denominator positive if it is negative.
+
+		Returns:
+		A fraction with a positive denominator.
+		"""
+
+		f = self.copy()
+
+		if self.denominator < 0:
+			f.expand(-1)
+
+		return f
