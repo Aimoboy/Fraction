@@ -393,9 +393,6 @@ class Fraction:
 		A fraction with a positive denominator.
 		"""
 
-		f = self.copy()
-
 		if self.denominator < 0:
-			f.expand(-1)
-
-		return f
+			self.numerator = -self.numerator
+			self.denominator = -self.denominator
