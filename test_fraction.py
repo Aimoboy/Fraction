@@ -198,3 +198,20 @@ class TestFraction(unittest.TestCase):
 		f1 = Fraction(1, 2)
 		f2 = Fraction(1, 3)
 		self.assertEqual(f2 - f1, Fraction(-1, 6))
+
+	def test_fix_sign(self):
+		f = Fraction(1, 2)
+		f.fix_sign()
+		self.assertEqual(f, Fraction(1, 2))
+
+		f = Fraction(-1, 2)
+		f.fix_sign()
+		self.assertEqual(f, Fraction(-1, 2))
+
+		f = Fraction(-1, -2)
+		f.fix_sign()
+		self.assertEqual(f, Fraction(1, 2))
+
+		f = Fraction(1, -2)
+		f.fix_sign()
+		self.assertEqual(f, Fraction(-1, 2))
